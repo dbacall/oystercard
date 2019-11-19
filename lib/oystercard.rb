@@ -2,6 +2,7 @@ class Oystercard
   attr_reader :balance, :maximum, :in_journey
 
   MAXIMUM = 90
+  MINIMUM = 1
 
   def initialize(maximum = MAXIMUM)
   @balance = 0
@@ -22,7 +23,12 @@ class Oystercard
     (@balance + amount) > @maximum
   end
 
+  def no_money?
+    @balance < MINIMUM
+  end
+
   def touch_in
+    raise "Minimum £1 required to travel" if no_money?
     @in_journey = true
   end
 

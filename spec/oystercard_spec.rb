@@ -28,14 +28,19 @@ describe Oystercard do
 
   describe '#touch_in' do
     it 'should change the in_journey variable to true' do
-      expect( subject.touch_in ).to eq(true)
+      subject.top_up(1)
+      expect( subject.touch_in ).to be_truthy
+    end
+    it 'should check for a minimum of £1 journey price' do
+      expect{ subject.touch_in }.to raise_error("Minimum £1 required to travel")
     end
   end
 
   describe '#touch_out' do
     it 'should change the in_journey variable to false' do
+      subject.top_up(1)
       subject.touch_in
-      expect( subject.touch_out ).to eq(false)
+      expect( subject.touch_out ).to be_falsey
     end
   end
 
