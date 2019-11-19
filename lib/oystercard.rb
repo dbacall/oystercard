@@ -1,11 +1,12 @@
 class Oystercard
-  attr_reader :balance, :maximum
+  attr_reader :balance, :maximum, :in_journey
 
   MAXIMUM = 90
 
   def initialize(maximum = MAXIMUM)
   @balance = 0
   @maximum = maximum
+  @in_journey = false
   end
 
   def top_up(amount)
@@ -20,4 +21,13 @@ class Oystercard
   def exceeded?(amount)
     (@balance + amount) > @maximum
   end
+
+  def touch_in
+    @in_journey = true
+  end
+
+  def touch_out
+    @in_journey = false
+  end
+
 end
