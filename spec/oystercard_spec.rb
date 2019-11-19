@@ -1,6 +1,6 @@
 require 'oystercard'
 describe Oystercard do
-  
+
   describe '#balance' do
     it 'should show 0 balance' do
       expect(subject.balance).to eq(0)
@@ -13,6 +13,9 @@ describe Oystercard do
     end
     it 'should increase the balance by 5 twice' do
       expect{ 2.times{subject.top_up(5)} }.to change{ subject.balance }.by (10)
+    end
+    it "shouldn't allow user to exceed maximum balance" do
+      expect{ subject.top_up(100) }.to raise_error("Warning maximum balance is #{subject.maximum}")
     end
   end
 end
