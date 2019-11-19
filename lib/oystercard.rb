@@ -15,10 +15,6 @@ class Oystercard
     @balance += amount
   end
 
-  def deduct(amount)
-    @balance -= amount
-  end
-
   def exceeded?(amount)
     (@balance + amount) > @maximum
   end
@@ -33,7 +29,13 @@ class Oystercard
   end
 
   def touch_out
+    deduct(1)
     @in_journey = false
   end
 
+  private
+  
+  def deduct(amount)
+    @balance -= amount
+  end
 end

@@ -19,12 +19,12 @@ describe Oystercard do
     end
   end
 
-  describe '#deduct' do
-    it 'should deduct the specified amount from balance' do
-      subject.top_up(10)
-      expect { subject.deduct(5) }.to change{ subject.balance }.by (-5)
-    end
-  end
+  # describe '#deduct' do
+  #   it 'should deduct the specified amount from balance' do
+  #     subject.top_up(10)
+  #     expect { subject.deduct(5) }.to change{ subject.balance }.by (-5)
+  #   end
+  # end
 
   describe '#touch_in' do
     it 'should change the in_journey variable to true' do
@@ -41,6 +41,11 @@ describe Oystercard do
       subject.top_up(1)
       subject.touch_in
       expect( subject.touch_out ).to be_falsey
+    end
+    it 'should deduct the balance by an amount' do
+      subject.top_up(10)
+      subject.touch_in
+      expect{ subject.touch_out }.to change{ subject.balance }.by (-1)
     end
   end
 
