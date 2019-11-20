@@ -28,45 +28,42 @@ describe Oystercard do
 
   describe '#touch_in' do
     it 'should change the in_journey variable to true' do
-      station = double('Station')
+      # station = double('Station')
       subject.top_up(1)
       expect( subject.touch_in(station) ).to be_truthy
     end
     it 'should check for a minimum of £1 journey price' do
-      station = double('Station')
+      # station = double('Station')
       expect{ subject.touch_in(station)}.to raise_error("Minimum £1 required to travel")
     end
     it 'should record the station of entry' do
-      station = double('Station')
+      # station = double('Station')
       subject.top_up(1)
       expect{ subject.touch_in(station) }.to change{ subject.entry_station }
     end
   end
 
+  let(:station) {double :station}
+
   describe '#touch_out' do
     it 'should change the in_journey variable to false' do
-      station = double('Station')
+      # station = double('Station')
       subject.top_up(1)
       subject.touch_in(station)
       expect( subject.touch_out ).to be_falsey
     end
     it 'should deduct the balance by an amount' do
-      station = double('Station')
+      # station = double('Station')
       subject.top_up(10)
       subject.touch_in(station)
       expect{ subject.touch_out }.to change{ subject.balance }.by (-1)
     end
     it 'should forget entry station' do
-      station = double('Station')
+      # station = double('Station')
       subject.top_up(1)
       subject.touch_in(station)
       expect{ subject.touch_out }.to change{ subject.entry_station }.from(station).to(nil)
     end
   end
 
-  describe '#in_journey' do
-    it 'should not be in journey by default' do
-      expect( subject.in_journey ).to be_falsey
-    end
-  end
 end
