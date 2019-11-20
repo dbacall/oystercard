@@ -1,7 +1,9 @@
-require_relative "station"
+require_relative "station.rb"
+require_relative "journey"
+
 
 class Oystercard
-  attr_reader :balance, :maximum, :entry_station, :journeys_log
+  attr_reader :balance, :maximum
 
   MAXIMUM = 90
   MINIMUM = 1
@@ -9,9 +11,8 @@ class Oystercard
   def initialize(maximum = MAXIMUM)
   @balance = 0
   @maximum = maximum
-  @entry_station 
-  @journeys_log = []
-  @current_journey = {}
+  @journey = Journey.new
+  @current_station = Station.new("name")
   end
 
   def top_up(amount)
@@ -29,19 +30,21 @@ class Oystercard
 
   def touch_in(entry_station)
     raise "Minimum £1 required to travel" if no_money?
-    journey_start(entry_station)
-    @current_journey[:"Entry station"] = entry_station
+
+    @current_station.name = entry_station
+    @journey.entry_station = @current_station.name
+    @journey.add_entry(entry_station)
   end
 
   def touch_out(exit_station)
     deduct(1)
-    @current_journey[:"Exit station"] = exit_station
-    @journeys_log << @current_journey
-    journey_end
+    @current_station.name = exit_station
+    @journey.add_exit(exit_station)
+    @journey.journey_logger
   end
 
   def in_journey?
-    !@entry_station.nil?
+    !@journey.entry_station.nil?
   end
 
   private
@@ -50,11 +53,4 @@ class Oystercard
     @balance -= amount
   end
 
-  def journey_start(station)
-    @entry_station = station
-  end
-
-  def journey_end
-    @entry_station = nil
-  end
 end
