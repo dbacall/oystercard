@@ -11,7 +11,7 @@ class Oystercard
   def initialize(maximum = MAXIMUM)
   @balance = 0
   @maximum = maximum
-  @journey = Journey.new
+  @journeys = Journeys.new
   @current_station = Station.new("name")
   end
 
@@ -30,21 +30,21 @@ class Oystercard
 
   def touch_in(entry_station)
     raise "Minimum £1 required to travel" if no_money?
-
+    deduct(@journeys.entry_penalty)
     @current_station.name = entry_station
-    @journey.entry_station = @current_station.name
-    @journey.add_entry(entry_station)
+    @journeys.entry_station = @current_station.name
+    @journeys.add_entry(entry_station)
   end
 
   def touch_out(exit_station)
-    deduct(1)
+    deduct(@journeys.fare)
     @current_station.name = exit_station
-    @journey.add_exit(exit_station)
-    @journey.journey_logger
+    @journeys.add_exit(exit_station)
+    @journeys.journey_logger
   end
 
   def in_journey?
-    !@journey.entry_station.nil?
+    !@journeys.entry_station.nil?
   end
 
   private

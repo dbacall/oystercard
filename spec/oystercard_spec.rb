@@ -5,6 +5,12 @@ describe Oystercard do
     it 'should show 0 balance' do
       expect(subject.balance).to eq(0)
     end
+
+    it 'should deduct by 6 if you touch in twice' do
+      subject.top_up(20)
+
+      expect{ 2.times{subject.touch_in(liverpool_street)} }.to change{ subject.balance}.by -6
+    end
   end
 
   describe '#top_up' do
@@ -27,11 +33,7 @@ describe Oystercard do
   # end
 
   describe '#touch_in' do
-    it 'should change the in_journey variable to true' do
-      # station = double('Station')
-      subject.top_up(1)
-      expect( subject.touch_in(liverpool_street) ).to be_truthy
-    end
+  
     it 'should check for a minimum of £1 journey price' do
       # station = double('Station')
       expect{ subject.touch_in(liverpool_street)}.to raise_error("Minimum £1 required to travel")
@@ -47,11 +49,16 @@ describe Oystercard do
   let(:farringdon)        {  double :station}
 
   describe '#touch_out' do
-    it 'should deduct the balance by an amount' do
+    it 'should deduct the balance 1' do
       # station = double('Station')
       subject.top_up(10)
       subject.touch_in(liverpool_street)
       expect{ subject.touch_out(farringdon) }.to change{ subject.balance }.by (-1)
+    end
+
+    it 'should deduct the balance by 6' do
+      subject.top_up(10)
+      expect{ subject.touch_out(farringdon) }.to change{ subject.balance }.by (-6)
     end
 
   end
