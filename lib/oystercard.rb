@@ -1,9 +1,9 @@
-require_relative "station.rb"
+require_relative "station"
 require_relative "journey"
-
+require_relative "journeylog"
 
 class Oystercard
-  attr_reader :balance, :maximum
+  attr_reader :balance
 
   MAXIMUM = 90
   MINIMUM = 1
@@ -11,12 +11,11 @@ class Oystercard
   def initialize(maximum = MAXIMUM)
   @balance = 0
   @maximum = maximum
-  @journeys = Journeys.new
-  @current_station = Station.new("name")
+  @journey_log = Journeylog.new
   end
 
   def top_up(amount)
-    raise "Warning maximum balance is #{@maximum}" if exceeded?(amount)
+    raise "Warning maximum balance is #{MAXIMUM}" if exceeded?(amount)
     @balance += amount
   end
 
@@ -30,21 +29,24 @@ class Oystercard
 
   def touch_in(entry_station)
     raise "Minimum £1 required to travel" if no_money?
-    deduct(@journeys.entry_penalty)
-    @current_station.name = entry_station
-    @journeys.entry_station = @current_station.name
-    @journeys.add_entry(entry_station)
+    
+    @journey_log.start(entry_station)
+    deduct(@journey_log.charge)
   end
 
   def touch_out(exit_station)
-    deduct(@journeys.fare)
-    @current_station.name = exit_station
-    @journeys.add_exit(exit_station)
-    @journeys.journey_logger
+   
+    @journey_log.finish(exit_station)
+    deduct(@journey_log.charge)
+    @journey_log.journey_logger
   end
 
   def in_journey?
-    !@journeys.entry_station.nil?
+    !@journey.entry_station.nil?
+  end
+
+  def print_log
+    @journey_log.journey_log
   end
 
   private

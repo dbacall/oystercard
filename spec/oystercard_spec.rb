@@ -14,6 +14,9 @@ describe Oystercard do
   end
 
   describe '#top_up' do
+
+    MAXIMUM = Oystercard::MAXIMUM
+
     it 'should increase the balance by 10' do
       expect{ subject.top_up(10) }.to change{ subject.balance }.by (10)
     end
@@ -21,7 +24,7 @@ describe Oystercard do
       expect{ 2.times{subject.top_up(5)} }.to change{ subject.balance }.by (10)
     end
     it "shouldn't allow user to exceed maximum balance" do
-      expect{ subject.top_up(100) }.to raise_error("Warning maximum balance is #{subject.maximum}")
+      expect{ subject.top_up(100) }.to raise_error("Warning maximum balance is #{MAXIMUM}")
     end
   end
 
@@ -46,7 +49,7 @@ describe Oystercard do
   end
 
   let(:liverpool_street)  {double :station}
-  let(:farringdon)        {  double :station}
+  let(:farringdon)        {double :station}
 
   describe '#touch_out' do
     it 'should deduct the balance 1' do
