@@ -1,6 +1,10 @@
 require 'oystercard'
 describe Oystercard do
 
+  let(:liverpool_street)  {double :station, name: "Liverpool Street"}
+  let(:farringdon)        {double :station, name: "Farringdon"}
+
+
   describe '#balance' do
     it 'should show 0 balance' do
       expect(subject.balance).to eq(0)
@@ -48,15 +52,21 @@ describe Oystercard do
     # end
   end
 
-  let(:liverpool_street)  {double :station}
-  let(:farringdon)        {double :station}
+  
 
   describe '#touch_out' do
-    it 'should deduct the balance 1' do
+    it 'should deduct 2 from the balance when travel from zone 1 to zone 2' do
       # station = double('Station')
       subject.top_up(10)
       subject.touch_in(liverpool_street)
-      expect{ subject.touch_out(farringdon) }.to change{ subject.balance }.by (-1)
+      expect{ subject.touch_out(farringdon) }.to change{ subject.balance }.by (-2)
+    end
+
+    it 'should deduct 2 from the balance when travel from zone 2 to zone 1' do
+      # station = double('Station')
+      subject.top_up(10)
+      subject.touch_in(farringdon)
+      expect{ subject.touch_out(liverpool_street) }.to change{ subject.balance }.by (-2)
     end
 
     it 'should deduct the balance by 6' do

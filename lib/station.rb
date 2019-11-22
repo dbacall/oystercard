@@ -1,9 +1,20 @@
 class Station
-  attr_accessor :name
-  attr_accessor :zone
+  attr_accessor :name, :zones
 
-  def initialize(name)
+  ZONE_DATA = {
+    1 => "Liverpool Street",
+    2 => "Farringdon",
+    3 => "Kilburn",
+    4 => "Edgware"
+    }
+
+  def initialize(name = "")
     @name = name
-    @zone = 1
+    @zones = ZONE_DATA
   end
+
+  def update_station(station)
+    @name = station
+  end
+
 end

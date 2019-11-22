@@ -4,18 +4,19 @@ require "journeylog"
 
 describe Journeylog do
 
-  let(:liverpool_street)  {double :liverpool_street}
-  let(:farringdon)        {double :farringdon}
-  let(:kilburn)  {double :kilburn}
-  let(:edgware)        {double :edgware}
+  let(:liverpool_street)  {double :station, name: "Liverpool Street"}
+  let(:farringdon)        {double :station, name: "Farringdon"}
+  let(:kilburn)           {double :station, name: "Kilburn"}
+  let(:edgware)           {double :station, name: "Edgware"}
   let(:journey)           {double :journey}
 
-  describe "#journeys_log" do
+  describe "#journey_log" do
     it "starts as an empty array" do
       expect(subject.journey_log).to eq []
     end
 
     it "should return an empty array after fare method called" do
+      
       subject.start(liverpool_street)
       subject.finish(farringdon)
       expect(subject.journey_log).to eq []

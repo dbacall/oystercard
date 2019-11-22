@@ -1,5 +1,3 @@
-require_relative "station"
-require_relative "journey"
 require_relative "journeylog"
 
 class Oystercard
@@ -29,7 +27,6 @@ class Oystercard
 
   def touch_in(entry_station)
     raise "Minimum £1 required to travel" if no_money?
-    
     @journey_log.start(entry_station)
     deduct(@journey_log.charge)
   end

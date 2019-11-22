@@ -4,16 +4,18 @@ class Journeylog
 
   attr_reader :journey_log, :charge
 
-  def initialize
-    @journey = Journey.new
+  def initialize(journey_class = Journey)
+    @journey_class = journey_class
     @journey_log = []
     @charge = 0
+    @journey
   end
 
   def start(entry_station)
-    @charge = @journey.entry_penalty
-    @journey.add_entry(entry_station)
+    @journey = @journey_class.new
     
+    @journey.add_entry(entry_station)
+    @charge = @journey.entry_penalty
   end
 
   def finish(exit_station)
@@ -25,7 +27,7 @@ class Journeylog
 
   def journey_logger
     @journey_log << current_journey
-    @journey.current_journey = {"Entry station" => nil, "Exit station" => nil}
+    @journey.current_journey = {"Entry station" => "", "Exit station" => ""}
     @journey_log
   end
 

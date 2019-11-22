@@ -2,22 +2,10 @@ require 'journey'
 
 describe Journey do
 
-  let(:liverpool_street) {double :station}
-  let(:farringdon) {double :station}
+  let(:liverpool_street) {double :station, name: "Liverpool Street"}
+  let(:farringdon) {double :station, name: "Farringdon"}
+  
 
-  describe '#entry_station' do
-    it 'should return the entry station' do
-      subject.entry_station = liverpool_street
-      expect(subject.entry_station).to eq(liverpool_street)
-    end
-  end
-
-  describe '#exit_station' do
-    it 'should return the exit station' do
-      subject.exit_station = farringdon
-      expect(subject.exit_station).to eq(farringdon)
-    end
-  end
 
 
   describe '#entry_penalty' do
@@ -36,5 +24,7 @@ describe Journey do
       expect(subject.fare).to eq(6)
     end
   end
+
+  
 
 end
