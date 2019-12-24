@@ -3,7 +3,7 @@
 The challenge this week is to create a Ruby application that mimicks the London Underground Oyster card system and all its functionality.
 
 ## User Stories
-
+```
 In order to use public transport
 As a customer
 I want money on my card
@@ -51,7 +51,7 @@ I need a penalty charge deducted if I fail to touch in or out
 In order to be charged the correct amount
 As a customer
 I need to have the correct fare calculated
-
+```
 ## Technologies Used
 
 - Ruby
