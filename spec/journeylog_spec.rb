@@ -1,7 +1,5 @@
 require "journeylog"
 
-
-
 describe Journeylog do
 
   let(:liverpool_street)  {double :station, name: "Liverpool Street"}
@@ -16,7 +14,6 @@ describe Journeylog do
     end
 
     it "should return an empty array after fare method called" do
-      
       subject.start(liverpool_street)
       subject.finish(farringdon)
       expect(subject.journey_log).to eq []
@@ -28,7 +25,7 @@ describe Journeylog do
       subject.start(liverpool_street)
       subject.finish(farringdon)
       subject.journey_logger
-      expect(subject.journey_log).to eq [{"Entry station" => liverpool_street, "Exit station" => farringdon}]
+      expect(subject.journey_log).to eq [{"Entry station" => liverpool_street.name, "Exit station" => farringdon.name}]
     end
 
     it "should return an array with two journeys" do
@@ -38,7 +35,8 @@ describe Journeylog do
     subject.start(kilburn)
     subject.finish(edgware) 
     subject.journey_logger
-    expect(subject.journey_log).to eq [{"Entry station" => liverpool_street, "Exit station" => farringdon}, {"Entry station" => kilburn, "Exit station" => edgware}]
+    expect(subject.journey_log).to eq [{"Entry station" => liverpool_street.name, "Exit station" => farringdon.name},
+     {"Entry station" => kilburn.name, "Exit station" => edgware.name}]
     end
   end
 end

@@ -24,7 +24,6 @@ class Journey
 
   def entry_penalty
     @entry_station.name == "" ? fare = 0 : fare = 6
-    
     fare
   end
 

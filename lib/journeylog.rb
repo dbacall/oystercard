@@ -8,19 +8,16 @@ class Journeylog
     @journey_class = journey_class
     @journey_log = []
     @charge = 0
-    @journey
+    @journey = Journey.new
   end
 
   def start(entry_station)
-    @journey = @journey_class.new
-    
-    @journey.add_entry(entry_station)
+    @journey.add_entry(entry_station.name)
     @charge = @journey.entry_penalty
   end
 
   def finish(exit_station)
-    
-    @journey.add_exit(exit_station)
+    @journey.add_exit(exit_station.name)
     @charge = @journey.fare
     
   end
